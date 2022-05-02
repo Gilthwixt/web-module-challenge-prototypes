@@ -15,10 +15,29 @@
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
-
+function Person(name, age) {
+  this.name = name
+  this.age = age
+  this.stomach = []
 }
 
+Person.prototype.eat = function(someFood) {
+  if (this.stomach.length < 10) {
+    this.stomach.push(someFood)
+    console.log(`${Person} ate ${someFood}!`)
+  }
+  else (
+    console.log(`${Person} is full!`)
+  )
+}
+
+Person.prototype.poop = function() {
+  this.stomach.length = 0
+}
+
+Person.prototype.toString = function() {
+  return `${this.name}, ${this.age}`
+}
 
 /*
   TASK 2
@@ -36,10 +55,30 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(model, milesPerGallon) {
+  this.model = model
+  this.milesPerGallon = milesPerGallon
+  this.tank = 0
+  this.odometer = 0
+  console.log(`Created new Car, the ${this.model}`)
 }
 
+Car.prototype.fill = function(gallons) {
+  this.tank = this.tank + gallons
+  console.log(`The ${this.model}s tank has been filled ${gallons} gallons and has ${this.tank} gallons in the tank`)
+}
+
+Car.prototype.drive = function(distance) {
+  this.odometer = this.odometer + distance
+  this.tank = this.tank - (distance / this.milesPerGallon)
+  console.log(`The ${this.model} has driven ${distance} miles and has ${this.tank} gallons left in the tank`)
+}
+
+const dodgeChallenger = new Car('Dodge Challenger', 30)
+
+dodgeChallenger.fill(18.5)
+
+dodgeChallenger.drive(60)
 
 /*
   TASK 3
