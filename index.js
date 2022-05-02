@@ -69,16 +69,30 @@ Car.prototype.fill = function(gallons) {
 }
 
 Car.prototype.drive = function(distance) {
-  this.odometer = this.odometer + distance
-  this.tank = this.tank - (distance / this.milesPerGallon)
-  console.log(`The ${this.model} has driven ${distance} miles and has ${this.tank} gallons left in the tank`)
+  if (
+    (this.tank - (distance / this.milesPerGallon)) >= 0
+    ) {
+    this.odometer = this.odometer + distance
+    this.tank = this.tank - (distance / this.milesPerGallon)
+    console.log(`The ${this.model} has driven ${distance} miles and has ${this.tank} gallons left in the tank`)
+    }
+  else {
+    while ((this.tank - (distance / this.milesPerGallon)) >= 0) {
+    this.odometer = this.odometer + distance
+    this.tank = this.tank - (distance / this.milesPerGallon)
+    }
+    console.log(`The ${this.model} ran out of fuel at ${this.odometer} miles!`)
+  }
 }
 
 const dodgeChallenger = new Car('Dodge Challenger', 30)
 
 dodgeChallenger.fill(18.5)
 
-dodgeChallenger.drive(60)
+dodgeChallenger.drive(600)
+
+console.log(dodgeChallenger.tank) 
+console.log(dodgeChallenger.odometer) // tank and odometer not updating properly after .drive, needs investigation
 
 /*
   TASK 3
@@ -88,10 +102,17 @@ dodgeChallenger.drive(60)
         + Should return a string "Playing with x", x being the favorite toy.
 */
 
-function Baby() {
-
+function Baby(name, age, favoriteToy) {
+ Person.call(this, name, age, favoriteToy)
+ this.favoriteToy = favoriteToy
 }
 
+Baby.prototype = Object.create(Person.prototype)
+
+Baby.prototype.play = function() {
+  console.log(`${this.name} is playing with ${this.favoriteToy}`)
+  return (`Playing with ${this.favoriteToy}`)
+}
 
 /* 
   TASK 4
